@@ -1,15 +1,15 @@
-[![Build Status](https://travis-ci.org/autostructure/secure_docker.svg?branch=master)](https://travis-ci.org/autostructure/secure_docker)
-[![Puppet Forge](https://img.shields.io/puppetforge/v/autostructure/secure_docker.svg)](https://forge.puppetlabs.com/autostructure/secure_docker)
-[![Puppet Forge](https://img.shields.io/puppetforge/f/autostructure/secure_docker.svg)](https://forge.puppetlabs.com/autostructure/secure_docker)
+[![Build Status](https://travis-ci.org/autostructure/harden_docker.svg?branch=master)](https://travis-ci.org/autostructure/harden_docker)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/autostructure/harden_docker.svg)](https://forge.puppetlabs.com/autostructure/harden_docker)
+[![Puppet Forge](https://img.shields.io/puppetforge/f/autostructure/harden_docker.svg)](https://forge.puppetlabs.com/autostructure/harden_docker)
 
 #### Table of Contents
 
 1. [Overview](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with secure_docker](#setup)
-    * [What secure_docker affects](#what-secure_docker-affects)
+3. [Setup - The basics of getting started with harden_docker](#setup)
+    * [What harden_docker affects](#what-harden_docker-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with secure_docker](#beginning-with-secure_docker)
+    * [Beginning with harden_docker](#beginning-with-harden_docker)
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
@@ -27,7 +27,7 @@ If your module has a range of functionality (installation, configuration, manage
 
 ## Setup
 
-### What secure_docker affects
+### What harden_docker affects
 
 * A list of files, packages, services, or operations that the module will alter, impact, or execute on the system it's installed on.
 * This is a great place to stick any warnings.
@@ -37,7 +37,7 @@ If your module has a range of functionality (installation, configuration, manage
 
 If your module requires anything extra before setting up (pluginsync enabled, etc.), mention it here.
 
-### Beginning with secure_docker
+### Beginning with harden_docker
 
 The very basic steps needed for a user to get the module up and running.
 

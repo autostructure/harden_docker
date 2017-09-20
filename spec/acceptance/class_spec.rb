@@ -1,11 +1,11 @@
 require 'spec_helper_acceptance'
 
-describe 'secure_docker class' do
+describe 'harden_docker class' do
   context 'default parameters' do
     # Using puppet_apply as a helper
     it 'should work idempotently with no errors' do
       pp = <<-EOS
-      class { 'secure_docker': }
+      class { 'harden_docker': }
       EOS
 
       # Run it twice and test for idempotency
@@ -13,11 +13,11 @@ describe 'secure_docker class' do
       apply_manifest(pp, catch_changes: true)
     end
 
-    # describe package('secure_docker') do
+    # describe package('harden_docker') do
     #   it { is_expected.to be_installed }
     # end
 
-    # describe service('secure_docker') do
+    # describe service('harden_docker') do
     #   it { is_expected.to be_enabled }
     #   it { is_expected.to be_running }
     # end

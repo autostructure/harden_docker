@@ -26,15 +26,6 @@ task :validate do
   end
 end
 
-# require 'controlrepo/rake_tasks'
-
-# These gems aren't always present, for instance
-# on Travis with --without development
-begin
-  require 'puppet_blacksmith/rake_tasks'
-rescue LoadError # rubocop:disable Lint/HandleExceptions
-end
-
 # RuboCop::RakeTask.new
 
 Rake::Task[:lint].clear

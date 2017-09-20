@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'secure_docker' do
+describe 'harden_docker' do
   context 'supported operating systems' do
     on_supported_os.each do |os, facts|
       context "on #{os}" do
@@ -16,30 +16,26 @@ describe 'secure_docker' do
         #   }
         # }
 
-        context "secure_docker class without any parameters" do
+        context "harden_docker class without any parameters" do
           it { is_expected.to compile.with_all_deps }
 
-          it { is_expected.to contain_class('secure_docker') }
-          it {
-            is_expected.to contain_class('secure_docker::install').that_comes_before(
-              'Class[secure_docker::config]'
-            )
-          }
-          it { is_expected.to contain_class('secure_docker::config').that_notifies('Class[secure_docker::service_auditd]') }
-          it { is_expected.to contain_class('secure_docker::service_auditd').that_comes_before('Class[secure_docker]') }
+          it { is_expected.to contain_class('harden_docker') }
 
-          # 2.1 Restrict network traffic between containers
-          # 2.2 Set the logging level (Scored)
-          # 2.3 Allow Docker to make changes to iptables
-          # 2.13 Disable operations on legacy registry (v1)
-          # 2.14 Enable live restore
-          # 2.18 Disable Userland Proxy
-          it {
-            is_expected.to contain_class('docker').with(
-              'log_level' => 'info',
-              'extra_parameters' => %w(--icc=false --iptables=true --disable-legacy-registry --live-restore --userland-proxy=false)
-            )
-          }
+          it { is_expected.to contain_class('harden_docker::config').that_comes_before('Class[harden_docker]') }
+          it { is_expected.to contain_class('harden_docker::config_daemon').that_comes_before('Class[harden_docker]') }
+
+          # Restrict network traffic between containers
+          # Set the logging level
+          # Allow Docker to make changes to iptables
+          # Disable operations on legacy registry
+          # Enable live restore
+          # Disable Userland Proxy
+          it { is_expected.to contain_augeas('restrict_network_traffic_between_containers') }
+          it { is_expected.to contain_augeas('set_the_logging_level') }
+          it { is_expected.to contain_augeas('allow_docker_to_make_changes_to_iptables') }
+          it { is_expected.to contain_augeas('disable_operations_on_legacy_registry') }
+          it { is_expected.to contain_augeas('enable_live_restore') }
+          it { is_expected.to contain_augeas('disable_userland_proxy') }
 
           # 1.1 Create a separate partition for containers (Scored)
           # it {
@@ -166,20 +162,13 @@ describe 'secure_docker' do
               'line' => '-w /usr/bin/docker-runc -k docker'
             )
           }
-
-          it {
-            is_expected.to contain_service('auditd').with(
-              'ensure'  => 'running',
-              'restart' => '/sbin/service auditd restart'
-            )
-          }
         end
       end
     end
   end
 
   # 1.2 Use the updated Linux Kernel (Scored)
-  context "secure_docker with older kernel" do
+  context "harden_docker with older kernel" do
     let(:facts) do
       {
         kernelversion: '3.9.10',

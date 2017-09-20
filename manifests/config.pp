@@ -2,51 +2,9 @@
 #
 # This class is called from secure_docker for service config.
 #
-class secure_docker::config {
-  # Defaults for file_line
-  $file_line_auditd_defaults = {
-    path    => $::secure_docker::docker_auditd_path,
-  }
-
-  # 1.7 Audit docker daemon
-  # 1.8 Audit Docker files and directories - /var/lib/docker
-  # 1.9 Audit Docker files and directories - /etc/docker
-  # 1.10 Audit Docker files and directories - docker-registry.service
-  # 1.11 Audit Docker files and directories - /var/run/docker.sock
-  # 1.12 Audit Docker files and directories - /etc/sysconfig/docker
-  # 1.13 Audit Docker files and directories - /etc/docker/daemon.json
-  # 1.14 Audit Docker files and directories - /usr/bin/docker-containerd
-  # 1.15 Audit Docker files and directories - /usr/bin/docker-runc
-  file_line {
-    default:
-      * => $file_line_auditd_defaults,;
-
-    'docker_daemon_audit':
-      line => '-w /usr/bin/docker -k docker',;
-
-    'docker_var_files_audit':
-      line => '-w /var/lib/docker -k docker',;
-
-    'docker_etc_files_audit':
-      line => '-w /etc/docker -k docker',;
-
-    'docker_registry_service_audit':
-      line => '-w /usr/lib/systemd/system/docker.service -k docker',;
-
-    'docker_sock_audit':
-      line => '-w /usr/lib/systemd/system/docker.socket -k docker',;
-
-    'docker_sysconfig_audit':
-      line => '-w /etc/default/docker -k docker',;
-
-    'docker_daemon_json_audit':
-      line => '-w /etc/docker/daemon.json -k docker',;
-
-    'docker_containerd_audit':
-      line => '-w /usr/bin/docker-containerd -k docker',;
-
-    'docker_runc_audit':
-      line => '-w /usr/bin/docker-runc -k docker',;
+class harden_docker::config {
+  file { $::harden_docker::docker_auditd_path:
+    ensure => file,
   }
 
   # 3.5 Verify that /etc/docker directory ownership is set to root:root
@@ -104,7 +62,6 @@ class secure_docker::config {
     seltype => 'var_run_t',
   }
 
-  # daemon.json is incompatiable with the current Puppet module
   # 3.17 Verify that daemon.json file ownership is set to root:root
   # 3.18 Verify that daemon.json file permissions are set to 644 or more restrictive
   file { '/etc/docker/daemon.json':
