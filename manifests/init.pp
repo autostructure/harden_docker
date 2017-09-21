@@ -35,11 +35,12 @@ class harden_docker(
   -> class { '::harden_docker::config_auditd': }
   -> Class['::harden_docker']
 
-  class { '::harden_docker::config_daemon': }
+  class { '::harden_docker::config_daemon_keys': }
+  -> class { '::harden_docker::config_daemon_values': }
   -> Class['::harden_docker']
 
   if defined(Service['docker']) {
-    Class['::harden_docker::config_daemon']
+    Class['::harden_docker::config_daemon_values']
     ~> Service['docker']
   }
 }

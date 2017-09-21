@@ -14,7 +14,10 @@ describe 'harden_docker' do
           it { is_expected.to contain_class('harden_docker') }
 
           it { is_expected.to contain_class('harden_docker::config').that_comes_before('Class[harden_docker]') }
-          it { is_expected.to contain_class('harden_docker::config_daemon').that_comes_before('Class[harden_docker]') }
+          it { is_expected.to contain_class('harden_docker::config_daemon_keys').that_comes_before('Class[harden_docker::config_daemon_values]') }
+          it { is_expected.to contain_class('harden_docker::config_daemon_values').that_comes_before('Class[harden_docker]') }
+
+          it { is_expected.to contain_class('harden_docker::config_auditd').that_comes_before('Class[harden_docker]') }
 
           # Restrict network traffic between containers
           # Set the logging level
