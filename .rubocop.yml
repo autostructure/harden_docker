@@ -1,5 +1,5 @@
 # Relaxed.Ruby.Style
-
+---
 AllCops:
   Exclude:
     - 'spec/fixtures/**/*'
@@ -9,6 +9,10 @@ Style/Alias:
   Enabled: false
   StyleGuide: http://relaxed.ruby.style/#stylealias
 
+Style/AsciiComments:
+  Enabled: false
+  StyleGuide: http://relaxed.ruby.style/#styleasciicomments
+
 Style/BeginBlock:
   Enabled: false
   StyleGuide: http://relaxed.ruby.style/#stylebeginblock
@@ -17,13 +21,17 @@ Style/BlockDelimiters:
   Enabled: false
   StyleGuide: http://relaxed.ruby.style/#styleblockdelimiters
 
+Style/CommentAnnotation:
+  Enabled: false
+  StyleGuide: http://relaxed.ruby.style/#stylecommentannotation
+
 Style/Documentation:
   Enabled: false
   StyleGuide: http://relaxed.ruby.style/#styledocumentation
 
-Style/DotPosition:
+Layout/DotPosition:
   Enabled: false
-  StyleGuide: http://relaxed.ruby.style/#styledotposition
+  StyleGuide: http://relaxed.ruby.style/#layoutdotposition
 
 Style/DoubleNegation:
   Enabled: false
@@ -89,13 +97,13 @@ Style/SingleLineMethods:
   Enabled: false
   StyleGuide: http://relaxed.ruby.style/#stylesinglelinemethods
 
-Style/SpaceBeforeBlockBraces:
+Layout/SpaceBeforeBlockBraces:
   Enabled: false
-  StyleGuide: http://relaxed.ruby.style/#stylespacebeforeblockbraces
+  StyleGuide: http://relaxed.ruby.style/#layoutspacebeforeblockbraces
 
-Style/SpaceInsideParens:
+Layout/SpaceInsideParens:
   Enabled: false
-  StyleGuide: http://relaxed.ruby.style/#stylespaceinsideparens
+  StyleGuide: http://relaxed.ruby.style/#layoutspaceinsideparens
 
 Style/SpecialGlobalVars:
   Enabled: false
@@ -105,6 +113,10 @@ Style/StringLiterals:
   Enabled: false
   StyleGuide: http://relaxed.ruby.style/#stylestringliterals
 
+Style/TrailingCommaInArguments:
+  Enabled: false
+  StyleGuide: http://relaxed.ruby.style/#styletrailingcommainarguments
+
 Style/TrailingCommaInLiteral:
   Enabled: false
   StyleGuide: http://relaxed.ruby.style/#styletrailingcommainliteral
@@ -112,6 +124,10 @@ Style/TrailingCommaInLiteral:
 Style/WhileUntilModifier:
   Enabled: false
   StyleGuide: http://relaxed.ruby.style/#stylewhileuntilmodifier
+
+Style/WordArray:
+  Enabled: false
+  StyleGuide: http://relaxed.ruby.style/#stylewordarray
 
 Lint/AmbiguousRegexpLiteral:
   Enabled: false

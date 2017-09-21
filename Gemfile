@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
 group :test do
+  gem 'coveralls'
   gem 'metadata-json-lint'
-  gem 'puppet' # , ENV['PUPPET_GEM_VERSION'] || '~> 4.8'
+  gem 'puppet', '~> 4.10.4' # , ENV['PUPPET_GEM_VERSION'] || '~> 4.8'
   gem 'puppetlabs_spec_helper'
   gem 'rake'
   gem 'rest-client'

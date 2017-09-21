@@ -65,7 +65,7 @@ class harden_docker::config {
   # 3.17 Verify that daemon.json file ownership is set to root:root
   # 3.18 Verify that daemon.json file permissions are set to 644 or more restrictive
   file { '/etc/docker/daemon.json':
-    ensure => absent,
+    ensure => file,
     owner  => 'root',
     group  => 'root',
     mode   => 'a-x,go-w',

@@ -3,7 +3,7 @@
 # This class is called from harden_docker for service config.
 #
 class harden_docker::config_daemon {
-  $augeas_docker_daemon_defaults = {
+  Augeas {
     lens => 'Json.lns',
     incl => '/etc/docker/daemon.json',
   }
@@ -14,44 +14,63 @@ class harden_docker::config_daemon {
   # Disable operations on legacy registry
   # Enable live restore
   # Disable Userland Proxy
-  augeas {
-    default:
-      * => $augeas_docker_daemon_defaults,;
 
-    'restrict_network_traffic_between_containers':
-      changes => [
-        'set dict/entry[.=\'icc\'] icc',
-        'set dict/entry[.=\'icc\']/boolean false',
-      ],;
+  $allow_network_traffic_between_containers = $harden_docker::restrict_network_traffic_between_containers ? {
+    true    => false,
+    default => true,
+  }
 
-    'set_the_logging_level':
-      changes => [
-        'set dict/entry[.=\'log-level\'] log-level',
-        'set dict/entry[.=\'log-level\']/string info',
-      ],;
+  augeas { 'restrict_network_traffic_between_containers':
+    changes => [
+      'set dict/entry[last()+1] icc',
+      "set dict/entry[last()]/const ${allow_network_traffic_between_containers}",
+    ],
+    onlyif  => "match dict/entry[*][.='icc'] size == 0",
+  }
 
-    'allow_docker_to_make_changes_to_iptables':
-      changes => [
-        'set dict/entry[.=\'iptables\'] iptables',
-        'set dict/entry[.=\'iptables\']/boolean true',
-      ],;
+  augeas { 'set_the_logging_level':
+    changes => [
+      'set dict/entry[last()+1] log-level',
+      "set dict/entry[last()]/string ${::harden_docker::set_the_logging_level}",
+    ],
+    onlyif  => "match dict/entry[*][.='log-level'] size == 0",
+  }
 
-    'disable_operations_on_legacy_registry':
-      changes => [
-        'set dict/entry[.=\'disable-legacy-registry\'] disable-legacy-registry',
-        'set dict/entry[.=\'disable-legacy-registry\']/boolean true',
-      ],;
+  augeas { 'allow_docker_to_make_changes_to_iptables':
+    changes => [
+      'set dict/entry[last()+1] iptables',
+      "set dict/entry[last()]/const ${::harden_docker::allow_docker_to_make_changes_to_iptables}",
+    ],
+    onlyif  => "match dict/entry[*][.='iptables'] size == 0",
+  }
 
-    'enable_live_restore':
-      changes => [
-        'set dict/entry[.=\'live-restore\'] live-restore',
-        'set dict/entry[.=\'live-restore\']/boolean true',
-      ],;
+  augeas { 'disable_operations_on_legacy_registry':
+    changes => [
+      'set dict/entry[last()+1] disable-legacy-registry',
+      "set dict/entry[last()]/const ${::harden_docker::disable_operations_on_legacy_registry}",
+    ],
+    onlyif  => "match dict/entry[*][.='disable-legacy-registry'] size == 0",
+  }
 
-    'disable_userland_proxy':
-      changes => [
-        'set dict/entry[.=\'userland-proxy\'] userland-proxy',
-        'set dict/entry[.=\'userland-proxy\']/boolean false',
-      ],;
+  augeas { 'enable_live_restore':
+    changes => [
+      'set dict/entry[last()+1] live-restore',
+      "set dict/entry[last()]/const ${::harden_docker::enable_live_restore}",
+    ],
+    onlyif  => "match dict/entry[*][.='live-restore'] size == 0",
+  }
+
+  $enable_userland_proxys = $harden_docker::disable_userland_proxy ? {
+    true    => false,
+    default => true,
+  }
+
+  augeas { 'disable_userland_proxy':
+
+    changes => [
+      'set dict/entry[last()+1] userland-proxy',
+      "set dict/entry[last()]/const ${enable_userland_proxys}",
+    ],
+    onlyif  => "match dict/entry[*][.='userland-proxy'] size == 0",
   }
 }

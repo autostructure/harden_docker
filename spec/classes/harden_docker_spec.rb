@@ -8,14 +8,6 @@ describe 'harden_docker' do
           facts
         end
 
-        # 2.4 Do not use insecure registries (Scored)
-        # 2.5 Do not use the aufs storage driver (Scored)
-        # let(:params) {
-        #   {
-        #     extra_parameters: ['--storage-driver aufs', '--insecure-registry some_registry']
-        #   }
-        # }
-
         context "harden_docker class without any parameters" do
           it { is_expected.to compile.with_all_deps }
 
@@ -67,7 +59,7 @@ describe 'harden_docker' do
 
           it {
             is_expected.to contain_file('/etc/docker/daemon.json').with(
-              'ensure' => 'absent',
+              'ensure' => 'file',
               'owner'  => 'root',
               'group'  => 'root',
               'mode'   => 'a-x,go-w'

@@ -17,48 +17,119 @@
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves. This is your 30 second elevator pitch for your module. Consider including OS/Puppet version it works with.
+Hardens a Docker installation. Please note: this does NOT install Docker. It does not harden images or containers
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology the module integrates with and what that integration enables. This section should answer the questions: "What does this module *do*?" and "Why would I use it?"
+One of Puppet biggest strength's is securing and enforcing your environment. If you decide to run Docker it's very important you secure its
+configuration files and daemon.
 
-If your module has a range of functionality (installation, configuration, management, etc.) this is the time to mention it.
+Docker is a great product, but it open to exploitation by savvy hackers. This module will help ensure:
+
+* Common sense hardening rules are enforced
+* Basic rules to help network performance between containers
 
 ## Setup
 
 ### What harden_docker affects
 
-* A list of files, packages, services, or operations that the module will alter, impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
+* Configuration files and directories
+* Docker daemon Configuration
+  * **Warning** A daemon change will restart dockerd. But, only if the service is managed elsewhere.
+* Auditing rules for configuration files and directories
 
-### Setup Requirements **OPTIONAL**
+### Setup Requirements
 
-If your module requires anything extra before setting up (pluginsync enabled, etc.), mention it here.
+This module requires that Docker already be installed.
 
 ### Beginning with harden_docker
 
-The very basic steps needed for a user to get the module up and running.
+To have Puppet harden docker with the default parameters, declare the [`harden_docker`][] class:
 
-If your most recent release breaks compatibility or requires particular steps for upgrading, you may wish to include an additional section here: Upgrading (For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+``` puppet
+class { 'harden_docker': }
+```
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing the fancy stuff with your module here.
+You can choose to turn off management of the files and configurations harden_docker manages.
+
+If you are using Swarm you will want to turn off management of live-restore.
+
+``` puppet
+class { 'harden_docker':
+  enable_live_restore => false,
+}
+```
 
 ## Reference
 
-Here, list the classes, types, providers, facts, etc contained in your module. This section should include all of the under-the-hood workings of your module so people know what the module is touching on their system but don't need to mess with things. (We are working on automating this section!)
+- [**Public classes**](#public-classes)
+    - [Class: harden_docker](#class-harden_docker)
+- [**Private classes**](#private-classes)
+    - [Class: harden_docker::config](#class-harden_dockerconfig)
+    - [Class: harden_docker::config_auditd](#class-harden_dockerconfig_auditd)
+    - [Class: harden_docker::config_daemon](#class-harden_dockerconfig_daemon)
+
+
+### Public Classes
+
+#### Class: `harden_docker`
+
+Hardens a Docker installation. Please note: this does NOT install Docker. It also does not harden images or containers.
+
+##### `restrict_network_traffic_between_containers`
+
+Disables inter-container communication.
+
+Values: true, false
+
+Default: `true`
+
+##### `set_the_logging_level`
+
+Set the logging level ("debug", "info", "warn", "error", "fatal") or false to turn off management (default "info")
+
+Values: false, "debug", "info", "warn", "error", "fatal"
+
+Default: `info`
+
+##### `allow_docker_to_make_changes_to_iptables`
+
+Enable addition of iptables rules.
+
+Values: true, false
+
+Default: `true`
+
+##### `disable_operations_on_legacy_registry`
+
+Disables contacting legacy registries.
+
+Values: true, false
+
+Default: `true`
+
+##### `enable_live_restore`
+
+Enables live restore of docker when containers are still running. Do not use with Swarm.
+
+Values: true, false
+
+Default: `true`
+
+##### `disable_userland_proxy`
+
+Disables use of userland proxy for loopback traffic.
+
+Values: true, false
+
+Default: `true`
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+Currently only supports Linux OS's.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You may also add any additional sections you feel are necessary or important to include here. Please use the `## ` header.
+Feel free to pull and contribute.
