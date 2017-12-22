@@ -62,13 +62,22 @@ class harden_docker::config {
     seltype => 'var_run_t',
   }
 
+  # Is the daemon json file doesn't exist add enough content to make it valid json
+  $empty_daemon = @(DAEMON:json)
+  {
+
+  }
+  | DAEMON
+
   # 3.17 Verify that daemon.json file ownership is set to root:root
   # 3.18 Verify that daemon.json file permissions are set to 644 or more restrictive
   file { '/etc/docker/daemon.json':
-    ensure => file,
-    owner  => 'root',
-    group  => 'root',
-    mode   => 'a-x,go-w',
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => 'a-x,go-w',
+    content => $empty_daemon,
+    replace => false,
   }
 
   # 3.19 Verify that /etc/default/docker file ownership is set to root:root
