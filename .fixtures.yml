@@ -4,6 +4,6 @@ fixtures:
     # apt:             "https://github.com/puppetlabs/puppetlabs-apt.git"
     # epel:            "https://github.com/stahnma/puppet-module-epel.git"
     # docker_platform: "https://github.com/puppetlabs/puppetlabs-docker_platform.git"
-    # docker:          "https://github.com/garethr/garethr-docker.git"
+    docker:          "https://github.com/puppetlabs/puppetlabs-docker.git"
   symlinks:
     harden_docker: "#{source_dir}"

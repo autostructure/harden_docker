@@ -22,6 +22,7 @@ class harden_docker(
   Boolean $enable_live_restore = true,
   Boolean $disable_userland_proxy = true,
   ) {
+  require ::docker
 
   # 1.2 Use the updated Linux Kernel (Scored)
   if versioncmp($::facts['kernelversion'], '3.10') < 0 {
