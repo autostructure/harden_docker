@@ -22,31 +22,31 @@ class harden_docker::config_daemon_values {
 
   augeas { 'restrict_network_traffic_between_containers':
     changes => [
-      "set dict/entry[*][.='icc']/const ${allow_network_traffic_between_containers}",
+      "set dict/entry[.='icc']/const ${allow_network_traffic_between_containers}",
     ],
   }
 
   augeas { 'set_the_logging_level':
     changes => [
-      "set dict/entry[*][.='log-level']/string ${::harden_docker::set_the_logging_level}",
+      "set dict/entry[.='log-level']/string ${::harden_docker::set_the_logging_level}",
     ],
   }
 
-  augeas { 'allow_docker_to_make_changes_to_iptables':
-    changes => [
-      "set dict/entry[*][.='iptables']/const ${::harden_docker::allow_docker_to_make_changes_to_iptables}",
-    ],
-  }
+  # augeas { 'allow_docker_to_make_changes_to_iptables':
+  #   changes => [
+  #     "set dict/entry[.='iptables']/const ${::harden_docker::allow_docker_to_make_changes_to_iptables}",
+  #   ],
+  # }
 
   augeas { 'disable_operations_on_legacy_registry':
     changes => [
-      "set dict/entry[*][.='disable-legacy-registry']/const ${::harden_docker::disable_operations_on_legacy_registry}",
+      "set dict/entry[.='disable-legacy-registry']/const ${::harden_docker::disable_operations_on_legacy_registry}",
     ],
   }
 
   augeas { 'enable_live_restore':
     changes => [
-      "set dict/entry[*][.='live-restore']/const ${::harden_docker::enable_live_restore}",
+      "set dict/entry[.='live-restore']/const ${::harden_docker::enable_live_restore}",
     ],
   }
 
@@ -58,7 +58,7 @@ class harden_docker::config_daemon_values {
   augeas { 'disable_userland_proxy':
 
     changes => [
-      "set dict/entry[*][.='userland-proxy']/const ${enable_userland_proxys}",
+      "set dict/entry[.='userland-proxy']/const ${enable_userland_proxys}",
     ],
   }
 }
