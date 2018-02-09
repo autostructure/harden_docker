@@ -36,13 +36,13 @@ class harden_docker::config_daemon_keys {
     onlyif  => "match dict/entry[.='log-level'] size == 0",
   }
 
-  # augeas { 'iptables_key':
-  #   changes => [
-  #     'set dict/entry[last()+1] iptables',
-  #     "set dict/entry[.='iptables']/const ${::harden_docker::allow_docker_to_make_changes_to_iptables}",
-  #   ],
-  #   onlyif  => "match dict/entry[.='iptables'] size == 0",
-  # }
+  augeas { 'iptables_key':
+    changes => [
+      'set dict/entry[last()+1] iptables',
+      "set dict/entry[.='iptables']/const ${::harden_docker::allow_docker_to_make_changes_to_iptables}",
+    ],
+    onlyif  => "match dict/entry[.='iptables'] size == 0",
+  }
 
   augeas { 'disable-legacy-registry_key':
     changes => [

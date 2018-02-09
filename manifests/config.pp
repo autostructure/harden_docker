@@ -63,7 +63,7 @@ class harden_docker::config {
   }
 
   # Is the daemon json file doesn't exist add enough content to make it valid json
-  $empty_daemon = @(DAEMON)
+  $empty_daemon = @(DAEMON:json)
   {
 
   }
