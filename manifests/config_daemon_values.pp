@@ -32,11 +32,11 @@ class harden_docker::config_daemon_values {
     ],
   }
 
-  augeas { 'allow_docker_to_make_changes_to_iptables':
-    changes => [
-      "set dict/entry[.='iptables']/const ${::harden_docker::allow_docker_to_make_changes_to_iptables}",
-    ],
-  }
+  # augeas { 'allow_docker_to_make_changes_to_iptables':
+  #   changes => [
+  #     "set dict/entry[.='iptables']/const ${::harden_docker::allow_docker_to_make_changes_to_iptables}",
+  #   ],
+  # }
 
   augeas { 'disable_operations_on_legacy_registry':
     changes => [
