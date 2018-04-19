@@ -8,7 +8,7 @@ describe 'harden_docker' do
           facts
         end
 
-        context "harden_docker class without any parameters" do
+        context 'harden_docker class without any parameters' do
           it { is_expected.to compile.with_all_deps }
 
           it { is_expected.to contain_class('harden_docker') }
@@ -38,7 +38,7 @@ describe 'harden_docker' do
           # }
 
           it {
-            is_expected.to contain_file('/etc/audit/rules.d/docker.rules').with( 'ensure' => 'file')
+            is_expected.to contain_file('/etc/audit/rules.d/docker.rules').with('ensure' => 'file')
           }
 
           it {
@@ -46,7 +46,7 @@ describe 'harden_docker' do
               'ensure' => 'file',
               'owner'  => 'root',
               'group'  => 'root',
-              'mode'   => 'a-x,go-w'
+              'mode'   => 'a-x,go-w',
             )
           }
 
@@ -56,7 +56,7 @@ describe 'harden_docker' do
               'owner'   => 'root',
               'group'   => 'root',
               'recurse' => true,
-              'mode'    => 'a-rx'
+              'mode'    => 'a-rx',
             )
           }
 
@@ -65,7 +65,7 @@ describe 'harden_docker' do
               'ensure' => 'file',
               'owner'  => 'root',
               'group'  => 'root',
-              'mode'   => 'a-x,go-w'
+              'mode'   => 'a-x,go-w',
             )
           }
 
@@ -74,7 +74,7 @@ describe 'harden_docker' do
               'ensure' => 'directory',
               'owner'  => 'root',
               'group'  => 'root',
-              'mode'   => 'go-w'
+              'mode'   => 'go-w',
             )
           }
 
@@ -82,7 +82,7 @@ describe 'harden_docker' do
             is_expected.to contain_file('/var/run/docker.sock').with(
               'owner'  => 'root',
               'group'  => 'docker',
-              'mode'   => 'a-x,o-rwx'
+              'mode'   => 'a-x,o-rwx',
             )
           }
 
@@ -90,7 +90,7 @@ describe 'harden_docker' do
           it {
             is_expected.to contain_file_line('docker_daemon_audit').with(
               'path' => '/etc/audit/rules.d/docker.rules',
-              'line' => '-w /usr/bin/docker -k docker'
+              'line' => '-w /usr/bin/docker -k docker',
             )
           }
 
@@ -98,7 +98,7 @@ describe 'harden_docker' do
           it {
             is_expected.to contain_file_line('docker_var_files_audit').with(
               'path' => '/etc/audit/rules.d/docker.rules',
-              'line' => '-w /var/lib/docker -k docker'
+              'line' => '-w /var/lib/docker -k docker',
             )
           }
 
@@ -106,7 +106,7 @@ describe 'harden_docker' do
           it {
             is_expected.to contain_file_line('docker_etc_files_audit').with(
               'path' => '/etc/audit/rules.d/docker.rules',
-              'line' => '-w /etc/docker -k docker'
+              'line' => '-w /etc/docker -k docker',
             )
           }
 
@@ -114,7 +114,7 @@ describe 'harden_docker' do
           it {
             is_expected.to contain_file_line('docker_registry_service_audit').with(
               'path' => '/etc/audit/rules.d/docker.rules',
-              'line' => '-w /usr/lib/systemd/system/docker.service -k docker'
+              'line' => '-w /usr/lib/systemd/system/docker.service -k docker',
             )
           }
 
@@ -122,7 +122,7 @@ describe 'harden_docker' do
           it {
             is_expected.to contain_file_line('docker_sock_audit').with(
               'path' => '/etc/audit/rules.d/docker.rules',
-              'line' => '-w /usr/lib/systemd/system/docker.socket -k docker'
+              'line' => '-w /usr/lib/systemd/system/docker.socket -k docker',
             )
           }
 
@@ -130,7 +130,7 @@ describe 'harden_docker' do
           it {
             is_expected.to contain_file_line('docker_sysconfig_audit').with(
               'path' => '/etc/audit/rules.d/docker.rules',
-              'line' => '-w /etc/default/docker -k docker'
+              'line' => '-w /etc/default/docker -k docker',
             )
           }
 
@@ -138,7 +138,7 @@ describe 'harden_docker' do
           it {
             is_expected.to contain_file_line('docker_daemon_json_audit').with(
               'path' => '/etc/audit/rules.d/docker.rules',
-              'line' => '-w /etc/docker/daemon.json -k docker'
+              'line' => '-w /etc/docker/daemon.json -k docker',
             )
           }
 
@@ -146,7 +146,7 @@ describe 'harden_docker' do
           it {
             is_expected.to contain_file_line('docker_containerd_audit').with(
               'path' => '/etc/audit/rules.d/docker.rules',
-              'line' => '-w /usr/bin/docker-containerd -k docker'
+              'line' => '-w /usr/bin/docker-containerd -k docker',
             )
           }
 
@@ -154,7 +154,7 @@ describe 'harden_docker' do
           it {
             is_expected.to contain_file_line('docker_runc_audit').with(
               'path' => '/etc/audit/rules.d/docker.rules',
-              'line' => '-w /usr/bin/docker-runc -k docker'
+              'line' => '-w /usr/bin/docker-runc -k docker',
             )
           }
         end
@@ -163,7 +163,7 @@ describe 'harden_docker' do
   end
 
   # 1.2 Use the updated Linux Kernel (Scored)
-  context "harden_docker with older kernel" do
+  context 'harden_docker with older kernel' do
     let(:facts) do
       {
         kernelversion: '3.9.10',
